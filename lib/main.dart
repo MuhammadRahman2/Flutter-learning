@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_learning/contact.dart';
 import 'package:flutter_learning/hive/hive_view.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
   Hive.init(appDocumentDir.path);
-  // Hive.registerAdapter(ContactAdapter(), 0);
+  Hive.registerAdapter(ContactAdapter());
   runApp(const MyApp());
 }
 

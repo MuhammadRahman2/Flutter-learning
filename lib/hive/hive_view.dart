@@ -1,5 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_learning/contact.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 
 class HiveView extends StatelessWidget {
   HiveView({super.key});
@@ -21,12 +25,35 @@ class HiveView extends StatelessWidget {
             CardDataAdd(
               nameEditController: nameController,
               ageEditController: ageController,
-            )
+            ),
+            Expanded(child: _buildListView()),
           ],
         ),
       ),
     );
   }
+  Widget _buildListView() {
+    final contactsBox = Hive.box('contacts');
+    return WatchBoxBuilder(
+      box: Hive.box('contacts'),
+      builder: (context, cantactBox) {
+        return ListView.builder(
+          itemCount: contactsBox.length,
+          itemBuilder: (BuildContext context, int index) {
+            final contact = contactsBox.get(index) as Contact;
+            return Card(
+              child: ListTile(
+                title: Text(contact.name),
+                subtitle: Text(contact.age.toString()),
+              ),
+            );
+            // Show contacts
+          },
+        );
+      }
+    );
+  }
+
 }
 
 class CardDataAdd extends StatelessWidget {
@@ -71,8 +98,12 @@ class CardDataAdd extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               child: const Text('Save'),
               onPressed: () {
+               final _name = nameEditController!.text;
+               final _age = ageEditController!.text;
                 debugPrint(nameEditController!.text.toString());
                 debugPrint(ageEditController!.text.toString());
+                final newContact = Contact(_name, int.parse(_age));
+                 addContact(newContact);
                 nameEditController!.clear();
                 ageEditController!.clear();
               },
@@ -81,5 +112,9 @@ class CardDataAdd extends StatelessWidget {
         ),
       ),
     );
+  }
+  void addContact(Contact contact) {
+    final contactsBox = Hive.box('contacts');
+    contactsBox.add(contact);
   }
 }
