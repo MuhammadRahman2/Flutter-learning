@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_learning/contact.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class HiveView extends StatelessWidget {
   HiveView({super.key});
@@ -21,12 +24,32 @@ class HiveView extends StatelessWidget {
             CardDataAdd(
               nameEditController: nameController,
               ageEditController: ageController,
-            )
+            ),
+            Expanded(child: _buildListView()),
           ],
         ),
       ),
     );
   }
+  Widget _buildListView() {
+    return WatchBoxBuilder(
+      box: Hive.box('contacts'),
+      builder: (context, contactsBox) {
+        return ListView.builder(
+          itemCount: contactsBox.length,
+          itemBuilder: (BuildContext context, int index) {
+            final contact = contactsBox.getAt(index) as Contact;
+
+            return ListTile(
+              title: Text(contact.name),
+              subtitle: Text(contact.age.toString()),
+            );
+          },
+        );
+      },
+    );
+  }
+
 }
 
 class CardDataAdd extends StatelessWidget {
@@ -71,8 +94,12 @@ class CardDataAdd extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               child: const Text('Save'),
               onPressed: () {
+                final _name = nameEditController!.text;
+                final _age = ageEditController!.text;
                 debugPrint(nameEditController!.text.toString());
                 debugPrint(ageEditController!.text.toString());
+                final newContact = Contact(_name, int.parse(_age));
+                addContact(newContact);
                 nameEditController!.clear();
                 ageEditController!.clear();
               },
@@ -82,4 +109,11 @@ class CardDataAdd extends StatelessWidget {
       ),
     );
   }
+
+  void addContact(Contact contact) {
+    final contactsBox = Hive.box('contacts');
+    contactsBox.add(contact);
+  }
+
+
 }
