@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_learning/contact.dart';
+import 'package:flutter_learning/hive/contact.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class HiveView extends StatelessWidget {
