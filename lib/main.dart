@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_learning/hive/contact.dart';
 import 'package:flutter_learning/hive/hive_view.dart';
+import 'package:flutter_learning/text_gradient/gradient_animation.dart';
+import 'package:flutter_learning/text_gradient/text_gradinet.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 
@@ -29,21 +31,26 @@ class _MyAppState extends State<MyApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: FutureBuilder(
-          future: Hive.openBox('contacts'),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasError) {
-                return Text(snapshot.error.toString());
-              } else {
-                return HiveView();
-              }
-            } else {
-              return const Center(
-                child: LinearProgressIndicator(),
-              );
-            }
-          }),
+      home:
+      GradientAnimation(),
+
+      // TextGradient(),
+        // for hive
+      // FutureBuilder(
+      //     future: Hive.openBox('contacts'),
+      //     builder: (context, snapshot) {
+      //       if (snapshot.connectionState == ConnectionState.done) {
+      //         if (snapshot.hasError) {
+      //           return Text(snapshot.error.toString());
+      //         } else {
+      //           return HiveView();
+      //         }
+      //       } else {
+      //         return const Center(
+      //           child: LinearProgressIndicator(),
+      //         );
+      //       }
+      //     }),
     );
   }
 
