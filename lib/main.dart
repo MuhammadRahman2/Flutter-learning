@@ -1,55 +1,38 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_learning/contact.dart';
-import 'package:flutter_learning/hive/hive_view.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:path_provider/path_provider.dart' as path_provider;
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_learning/add_in_list/list_bloc/list_bloc.dart';
+import 'package:flutter_learning/add_in_list/list_view.dart';
+import 'package:flutter_learning/counter/counter_bloc/counter_bloc.dart';
+import 'package:flutter_learning/counter/view/counter_view.dart';
+import 'package:flutter_learning/slider_with_switch/block_slider/slider_bloc.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
-  Hive.init(appDocumentDir.path);
-  Hive.registerAdapter(ContactAdapter());
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return MultiBlocProvider(
+      providers: [
+         BlocProvider(create: (context) => CounterBloc(), ),
+        BlocProvider(create: (context) =>  SliderBloc(),),
+        BlocProvider(create: (context) => ListBloc(),),
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: ListViewScreen(),
       ),
-      home: FutureBuilder(
-          future: Hive.openBox('contacts'),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasError) {
-                return Text(snapshot.error.toString());
-              } else {
-                return HiveView();
-              }
-            } else {
-              return const Center(
-                child: LinearProgressIndicator(),
-              );
-            }
-          }),
     );
-  }
-
-  @override
-  void dispose() {
-    Hive.close();
-    super.dispose();
   }
 }
