@@ -1,25 +1,58 @@
+// lib/main.dart
 import 'package:flutter/material.dart';
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_learning/boc/theme_bloc.dart';
+
+
+void main() {
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return BlocProvider(
+      create: (context) => ThemeBloc(),
+      child: BlocBuilder<ThemeBloc, ThemeState>(
+        builder: (context, state) {
+          return MaterialApp(
+            title: 'Flutter Theme Demo',
+            theme: state.themeData,
+            home: MyHomePage(),
+          );
+        },
       ),
-      home: const Scaffold(
-        body: Center(
-        child: Text('Home'),
+    );
+  }
+}
+
+class MyHomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).hintColor,
+        title: const Text('Flutter Theme Demo'),
       ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              'You can toggle the theme using the button below:',
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Theme.of(context).hintColor),
+              ),
+              onPressed: () {
+                context.read<ThemeBloc>().add(ToggleTheme());
+              },
+              child: Text('Toggle Theme', style: Theme.of(context).textTheme.bodyMedium,),
+            ),
+          ],
+        ),
       ),
     );
   }
