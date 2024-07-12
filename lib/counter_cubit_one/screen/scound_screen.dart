@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_learning/counter_cubit_exam/cubit/counter_cubit.dart';
+import 'package:flutter_learning/counter_cubit_one/cubit/counter_cubit.dart';
 
 class SecoundScreen extends StatelessWidget {
   const SecoundScreen({super.key});
