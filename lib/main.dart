@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_learning/counter_cubit_one/cubit/counter_cubit.dart';
+import 'package:flutter_learning/favourite_cubit/favourite_cubit.dart';
+import 'package:flutter_learning/favourite_cubit/favourite_cubit_view.dart';
 import 'package:flutter_learning/slider_cubit_two/slider_cubit.dart';
 import 'package:flutter_learning/slider_cubit_two/slider_cubit_view.dart';
 import 'package:flutter_learning/switch_change_cubit/switch_cubit.dart';
@@ -17,11 +19,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    debugPrint('build myApp');
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => CounterCubit(),),
         BlocProvider(create: (context) =>  SliderCubit(),),
-        BlocProvider(create: (context) => SwitchCubit(),)
+        BlocProvider(create: (context) => SwitchCubit(),),
+        BlocProvider(create: (context) =>  FavouriteCube(),)
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -29,7 +33,8 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: SwitchCubitView(),
+        home:  FavouriteView(),
+        // SwitchCubitView(),
         // SliderCubitView(),
         // CounterScreen(),
       ),
