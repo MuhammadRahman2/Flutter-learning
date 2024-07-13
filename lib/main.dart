@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_learning/counter_cubit_one/cubit/counter_cubit.dart';
 import 'package:flutter_learning/favourite_cubit/favourite_cubit.dart';
 import 'package:flutter_learning/favourite_cubit/favourite_cubit_view.dart';
+import 'package:flutter_learning/list_cubit/list_cubit.dart';
+import 'package:flutter_learning/list_cubit/list_cubit_view.dart';
 import 'package:flutter_learning/slider_cubit_two/slider_cubit.dart';
 import 'package:flutter_learning/slider_cubit_two/slider_cubit_view.dart';
 import 'package:flutter_learning/switch_change_cubit/switch_cubit.dart';
@@ -25,7 +27,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => CounterCubit(),),
         BlocProvider(create: (context) =>  SliderCubit(),),
         BlocProvider(create: (context) => SwitchCubit(),),
-        BlocProvider(create: (context) =>  FavouriteCube(),)
+        BlocProvider(create: (context) =>  FavouriteCube(),),
+        BlocProvider(create: (context) =>  ListCubit(),),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -33,7 +36,8 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home:  FavouriteView(),
+        home: ListCubitView()
+        // FavouriteView(),
         // SwitchCubitView(),
         // SliderCubitView(),
         // CounterScreen(),
