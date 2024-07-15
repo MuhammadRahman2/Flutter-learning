@@ -9,6 +9,8 @@ import 'package:flutter_learning/slider_cubit_two/slider_cubit.dart';
 import 'package:flutter_learning/slider_cubit_two/slider_cubit_view.dart';
 import 'package:flutter_learning/switch_change_cubit/switch_cubit.dart';
 import 'package:flutter_learning/switch_change_cubit/switch_cubit_view.dart';
+import 'package:flutter_learning/timer_cubit/timer_cubit.dart';
+import 'package:flutter_learning/timer_cubit/timer_cubit_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,6 +31,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => SwitchCubit(),),
         BlocProvider(create: (context) =>  FavouriteCube(),),
         BlocProvider(create: (context) =>  ListCubit(),),
+        BlocProvider(create: (context) =>  TimerCubit()..startTimer(),),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -36,7 +39,8 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: ListCubitView()
+        home: TimerCubitView(),
+        // ListCubitView()
         // FavouriteView(),
         // SwitchCubitView(),
         // SliderCubitView(),
